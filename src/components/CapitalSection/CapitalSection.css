@@ -1,0 +1,176 @@
+/* ============================================
+   Capital Section Styles
+   ============================================ */
+
+.capital-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.capital-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0.1;
+}
+
+.capital-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-10);
+    align-items: center;
+    margin-bottom: var(--spacing-12);
+    position: relative;
+    z-index: 1;
+}
+
+/* Counters */
+.capital-counters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+.counter-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.counter-value {
+    display: block;
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-2);
+}
+
+.counter-label {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Header */
+.capital-header .section-subtitle {
+    color: var(--color-accent);
+}
+
+.capital-header .section-subtitle::before,
+.capital-header .section-subtitle::after {
+    background-color: var(--color-accent);
+}
+
+.capital-header .section-title {
+    font-size: var(--text-3xl);
+    line-height: 1.3;
+}
+
+.capital-note {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin-top: var(--spacing-4);
+}
+
+/* Capital Cards */
+.capital-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-6);
+    position: relative;
+    z-index: 1;
+}
+
+.capital-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-normal);
+}
+
+.capital-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.capital-card-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--color-accent);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    flex-shrink: 0;
+}
+
+.capital-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.capital-card-label {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-1);
+}
+
+.capital-card-value {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-white);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .capital-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-8);
+    }
+
+    .capital-counters {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .capital-header {
+        text-align: center;
+    }
+
+    .capital-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .capital-counters {
+        flex-direction: column;
+    }
+
+    .capital-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .capital-header .section-title {
+        font-size: var(--text-2xl);
+    }
+}

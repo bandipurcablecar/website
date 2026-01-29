@@ -1,0 +1,239 @@
+.company-snapshot-page {
+    padding: 80px 0;
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+.snapshot-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.company-title {
+    font-size: 32px;
+    color: #e69138;
+    /* Orange color from screenshot */
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.company-subtitle {
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Table Styles */
+.basic-info-table {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    overflow-x: auto;
+}
+
+.basic-info-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #788fa5;
+}
+
+.basic-info-table td {
+    padding: 12px 15px;
+    border: 1px solid #788fa5;
+    /* Blueish grey border */
+    font-size: 15px;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.info-label {
+    background-color: #fce5cd;
+    /* Light orange background */
+    color: #b45f06;
+    /* Dark orange text */
+    font-weight: 600;
+    width: 30%;
+}
+
+.info-value {
+    background-color: #f9f9f9;
+    /* Very light background for values */
+    color: #335c94;
+    /* Blue text */
+    font-weight: 500;
+}
+
+.objectives-list {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.objectives-list li {
+    margin-bottom: 4px;
+}
+
+.label-sub {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+/* Charts Section */
+.charts-section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 350px;
+    position: relative;
+}
+
+.chart-title {
+    color: #e69138;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* Bar Chart */
+.chart-content {
+    display: flex;
+    align-items: flex-end;
+    height: 350px;
+    padding-left: 40px;
+    /* Space for Y axis labels */
+    position: relative;
+    border-left: 2px solid #555;
+    border-bottom: 2px solid #555;
+}
+
+.bar-chart-y-axis {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 10px;
+    color: #555;
+    font-size: 12px;
+    transform: translateY(10px);
+    /* Adjust alignment */
+}
+
+.bar-chart-bars {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    align-items: flex-end;
+    padding-bottom: 1px;
+    /* To sit on the line */
+}
+
+.bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 50px;
+}
+
+.bar {
+    width: 40px;
+    transition: height 0.3s ease;
+}
+
+.bar-value {
+    font-size: 10px;
+    color: #e69138;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.bar-label {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #335c94;
+    font-weight: 500;
+    text-align: center;
+}
+
+.chart-y-label {
+    transform: rotate(-90deg);
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    font-size: 12px;
+    color: #555;
+}
+
+/* Pie Chart */
+.pie-chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+    position: relative;
+}
+
+.pie-chart {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: conic-gradient(#e69138 0% 20.71%,
+            #ffffff 20.71% 21%,
+            /* Separator */
+            #335c94 21% 100%);
+    position: relative;
+}
+
+/* 3D effect slice (optional, simplified flat for now as CSS 3D is complex without SVG) */
+/* 3D effect slice is simplified for now */
+.pie-chart-labels {
+    position: absolute;
+    z-index: 2;
+}
+
+.pie-chart-labels.top {
+    top: 20px;
+}
+
+.pie-chart-labels.bottom {
+    bottom: 20px;
+    right: 20px;
+}
+
+.label-box {
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid #335c94;
+    background: white;
+    color: #335c94;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.label-box.public {
+    border-color: #e69138;
+    color: #e69138;
+}
+
+@media (max-width: 768px) {
+    .charts-section {
+        flex-direction: column;
+    }
+
+    .info-label {
+        width: 40%;
+    }
+}

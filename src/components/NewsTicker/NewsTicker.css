@@ -1,0 +1,115 @@
+/* ============================================
+   News Ticker Styles
+   ============================================ */
+
+.news-ticker {
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+    min-height: 50px;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ticker-label {
+    background-color: var(--color-primary-dark);
+    color: var(--color-white);
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+}
+
+.ticker-label::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, var(--color-primary-dark), transparent);
+}
+
+.ticker-wrapper {
+    flex: 1;
+    overflow: hidden;
+    padding: var(--spacing-3) var(--spacing-4);
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+}
+
+.ticker-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-white);
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+.ticker-icon {
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.ticker-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--color-white);
+    transition: color 0.3s ease;
+}
+
+.ticker-item a:hover {
+    color: var(--color-accent-light);
+    text-decoration: none;
+}
+
+.ticker-separator {
+    opacity: 0.4;
+    margin: 0 var(--spacing-2);
+    color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+    .ticker-label span {
+        font-size: var(--text-xs);
+    }
+
+    .ticker-item {
+        font-size: var(--text-xs);
+    }
+
+    .ticker-label {
+        padding: var(--spacing-3) var(--spacing-4);
+    }
+}

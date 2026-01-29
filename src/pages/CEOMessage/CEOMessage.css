@@ -1,0 +1,150 @@
+.ceo-message-page {
+    padding: calc(var(--header-height) + 80px) 0 80px;
+    background-color: #fcfcfc;
+    min-height: 100vh;
+    font-family: 'Mukta', sans-serif;
+}
+
+.ceo-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.ceo-header .sub-title {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e69138;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.ceo-header .main-title {
+    font-size: 32px;
+    color: #335c94;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.title-underline {
+    width: 60px;
+    height: 3px;
+    background-color: #e69138;
+    margin: 0 auto;
+}
+
+.ceo-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #444;
+    text-align: justify;
+}
+
+.content-block {
+    margin-bottom: 30px;
+}
+
+.content-block p {
+    margin-bottom: 20px;
+}
+
+/* Images Row (2 Side by Side) */
+.images-row {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+.images-row .grid-image {
+    flex: 1;
+}
+
+.content-grid {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+    align-items: center;
+}
+
+.content-grid.reverse {
+    flex-direction: row-reverse;
+}
+
+.grid-image {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.grid-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure images fill the container nicely */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.grid-image img:hover {
+    transform: scale(1.02);
+}
+
+.grid-text {
+    flex: 1;
+}
+
+.grid-text.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.closing-block {
+    margin-top: 50px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #e69138;
+}
+
+.signature-block {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.signature-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #335c94;
+}
+
+.signature-title {
+    font-size: 16px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+
+    .content-grid,
+    .images-row {
+        flex-direction: column !important;
+        gap: 20px;
+    }
+
+    .grid-image {
+        width: 100%;
+    }
+
+    .ceo-header .main-title {
+        font-size: 24px;
+    }
+
+    .ceo-content {
+        font-size: 16px;
+    }
+}

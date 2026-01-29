@@ -1,0 +1,364 @@
+/* IPO Page Styles */
+.ipo-container {
+    min-height: 70vh;
+    padding: 8rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.ipo-badge {
+    display: inline-block;
+    background: var(--color-accent);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ipo-visuals-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 3rem;
+}
+
+.charts-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.chart-box {
+    flex: 1;
+    min-width: 300px;
+    height: 300px;
+}
+
+.summary-box {
+    flex: 1;
+    min-width: 300px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.summary-table th,
+.summary-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.summary-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.summary-table .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.summary-table .text-right {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+}
+
+.summary-table .total-row-sm {
+    font-weight: 700;
+    background: #fafafa;
+}
+
+/* Obsolete class kept for reference if needed, but not used */
+.ipo-description-box {
+    display: none;
+}
+
+.ipo-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.ipo-subtitle {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin: 3rem 0 1.5rem;
+    font-weight: 700;
+}
+
+.ipo-table-wrapper {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.ipo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+}
+
+.ipo-table thead {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
+}
+
+.ipo-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ipo-table tbody tr {
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.ipo-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.ipo-table tbody tr.total-row {
+    background: #fff3e0;
+    font-weight: 700;
+    border-top: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+}
+
+.ipo-table tbody tr.total-row:hover {
+    background: #ffe0b2;
+}
+
+.ipo-table td {
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+}
+
+.ipo-table .number-cell {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ipo-title {
+        font-size: 1.75rem;
+    }
+
+    .ipo-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .ipo-table {
+        font-size: 0.875rem;
+    }
+
+    .ipo-table th,
+    .ipo-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .ipo-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+.ipo-additional-info {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-top: 3rem;
+}
+
+.info-heading {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.info-heading:first-child {
+    margin-top: 0;
+}
+
+.info-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.info-highlight {
+    margin-top: 2rem;
+    font-weight: 600;
+    color: #d32f2f;
+    background: #ffebee;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Date Table Styles */
+.date-table th {
+    font-weight: 700;
+    border: 1px solid #ccc;
+}
+
+.date-table td {
+    vertical-align: top;
+}
+
+.date-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.date-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.date-list li:last-child {
+    border-bottom: none;
+}
+
+/* Issue Manager Section */
+.issue-manager-section {
+    margin-top: 3rem;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.manager-header {
+    background: #222;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.manager-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.manager-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 2;
+}
+
+.nsmbl-icon {
+    width: 80px;
+    height: 80px;
+    background: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.manager-name h2 {
+    font-size: 1.75rem;
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.manager-name h3 {
+    font-size: 1.25rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.manager-details {
+    flex: 1;
+    text-align: right;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    border-left: 1px solid #ccc;
+    padding-left: 2rem;
+}
+
+.manager-details a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Footer Info */
+.ipo-footer-info {
+    background: #f1f1f1;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+    border-top: 3px solid #ccc;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.ipo-footer-info a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .manager-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .manager-details {
+        text-align: center;
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+        width: 100%;
+    }
+
+    .manager-logo-area {
+        flex-direction: column;
+    }
+}

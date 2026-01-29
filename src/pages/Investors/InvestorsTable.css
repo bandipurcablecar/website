@@ -1,0 +1,76 @@
+/* ============================================
+   Directors Shareholding Table
+   ============================================ */
+
+.directors-section {
+    padding: var(--spacing-16) 0;
+    background-color: var(--color-white);
+}
+
+.shareholding-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow-x: auto;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
+    background: white;
+}
+
+.shareholding-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-base);
+    text-align: left;
+}
+
+.shareholding-table th,
+.shareholding-table td {
+    padding: var(--spacing-4) var(--spacing-6);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.shareholding-table th {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    letter-spacing: 0.5px;
+}
+
+.shareholding-table tr:last-child td {
+    border-bottom: none;
+}
+
+.shareholding-table tr:hover {
+    background-color: var(--color-gray-50);
+}
+
+.shareholding-table td:first-child {
+    font-weight: 500;
+    color: var(--color-gray-900);
+}
+
+.shareholding-table td:nth-child(3) {
+    font-family: var(--font-mono, monospace);
+    font-weight: 600;
+    text-align: right;
+    color: var(--color-primary);
+}
+
+.shareholding-note {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    text-align: center;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+
+    .shareholding-table th,
+    .shareholding-table td {
+        padding: var(--spacing-3);
+        font-size: var(--text-sm);
+    }
+}
