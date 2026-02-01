@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Upload, Trash2, FileText, Download, X, Search, Filter, Plus, Tag, Edit2 } from 'lucide-react';
+import NepaliDate from 'nepali-date-converter';
 
 export default function AdminDownloads() {
     const [documents, setDocuments] = useState([]);
@@ -19,6 +20,7 @@ export default function AdminDownloads() {
         category: '', // Will default to first available
         fiscal_year: '',
         published_at: new Date().toISOString().split('T')[0], // Default to today
+        nepali_date: new NepaliDate(new Date()).format('YYYY-MM-DD'),
         file: null
     });
 
@@ -170,6 +172,7 @@ export default function AdminDownloads() {
             category: doc.category,
             fiscal_year: doc.fiscal_year || '',
             published_at: doc.published_at ? new Date(doc.published_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            nepali_date: doc.published_at ? new NepaliDate(new Date(doc.published_at)).format('YYYY-MM-DD') : '',
             file: null
         });
         setShowForm(true);
@@ -235,6 +238,38 @@ export default function AdminDownloads() {
         }
     }
 
+    // --- Date Conversion Logic ---
+    function handleDateChange(type, value) {
+        if (type === 'ad') {
+            // AD changed -> Update AD and Calc BS
+            const newAdDate = value;
+            setFormData(prev => ({ ...prev, published_at: newAdDate }));
+
+            if (newAdDate) {
+                try {
+                    const bsDate = new NepaliDate(new Date(newAdDate)).format('YYYY-MM-DD');
+                    setFormData(prev => ({ ...prev, published_at: newAdDate, nepali_date: bsDate }));
+                } catch (e) {
+                    console.error("Date conversion error", e);
+                }
+            }
+        } else if (type === 'bs') {
+            // BS changed -> Update BS and Calc AD
+            const newBsDate = value; // String YYYY-MM-DD
+            setFormData(prev => ({ ...prev, nepali_date: newBsDate }));
+
+            // Validate format YYYY-MM-DD roughly
+            if (/^\d{4}-\d{2}-\d{2}$/.test(newBsDate)) {
+                try {
+                    const adDate = new NepaliDate(newBsDate).toJsDate().toISOString().split('T')[0];
+                    setFormData(prev => ({ ...prev, nepali_date: newBsDate, published_at: adDate }));
+                } catch (e) {
+                    // Invalid date, just ignore auto-conversion
+                }
+            }
+        }
+    }
+
     function closeForm() {
         setShowForm(false);
         setEditingDoc(null);
@@ -242,7 +277,9 @@ export default function AdminDownloads() {
             title: '',
             category: categories[0]?.slug || '',
             fiscal_year: '',
+            fiscal_year: '',
             published_at: new Date().toISOString().split('T')[0],
+            nepali_date: new NepaliDate(new Date()).format('YYYY-MM-DD'),
             file: null
         });
     }
@@ -454,14 +491,29 @@ export default function AdminDownloads() {
 
                             <div className="form-group">
                                 <label className="form-label">Publish Date</label>
-                                <input
-                                    type="date"
-                                    className="form-input"
-                                    required
-                                    value={formData.published_at}
-                                    onChange={e => setFormData({ ...formData, published_at: e.target.value })}
-                                />
-                                <small className="text-gray-500 mt-1 block">Set custom publish date (for backdating documents)</small>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-xs text-gray-500 mb-1 block">English Date (AD)</label>
+                                        <input
+                                            type="date"
+                                            className="form-input"
+                                            required
+                                            value={formData.published_at}
+                                            onChange={e => handleDateChange('ad', e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs text-gray-500 mb-1 block">Nepali Date (BS)</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            placeholder="YYYY-MM-DD (e.g., 2080-01-01)"
+                                            value={formData.nepali_date || ''}
+                                            onChange={e => handleDateChange('bs', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <small className="text-gray-500 mt-1 block">Set custom publish date (dates allow backdating documents)</small>
                             </div>
 
                             <div className="form-group">

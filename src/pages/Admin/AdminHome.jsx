@@ -14,7 +14,16 @@ export default function AdminHome() {
     const [popups, setPopups] = useState([]);
     const [loadingPopups, setLoadingPopups] = useState(true);
     const [showPopupForm, setShowPopupForm] = useState(false);
-    const [newPopup, setNewPopup] = useState({ id: null, title: '', link_url: '', image: null, display_order: 0 });
+
+    const [newPopup, setNewPopup] = useState({
+        id: null,
+        title: '',
+        link_url: '',
+        image: null,
+        display_order: 0,
+        image_source_type: 'upload', // 'upload' or 'link'
+        direct_image_url: ''
+    });
 
     // Marquee State
     const [marqueeItems, setMarqueeItems] = useState([]);
@@ -183,21 +192,26 @@ export default function AdminHome() {
         try {
             let imageUrl = null;
 
-            // Upload Image if selected
-            if (newPopup.image) {
-                const fileExt = newPopup.image.name.split('.').pop();
-                const fileName = `popup_${Date.now()}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage
-                    .from('popups')
-                    .upload(fileName, newPopup.image);
+            if (newPopup.image_source_type === 'upload') {
+                // Upload Image if selected
+                if (newPopup.image) {
+                    const fileExt = newPopup.image.name.split('.').pop();
+                    const fileName = `popup_${Date.now()}.${fileExt}`;
+                    const { error: uploadError } = await supabase.storage
+                        .from('popups')
+                        .upload(fileName, newPopup.image);
 
-                if (uploadError) throw uploadError;
+                    if (uploadError) throw uploadError;
 
-                const { data: { publicUrl } } = supabase.storage
-                    .from('popups')
-                    .getPublicUrl(fileName);
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('popups')
+                        .getPublicUrl(fileName);
 
-                imageUrl = publicUrl;
+                    imageUrl = publicUrl;
+                }
+            } else {
+                // Use Direct Link
+                imageUrl = newPopup.direct_image_url;
             }
 
             if (newPopup.id) {
@@ -213,7 +227,7 @@ export default function AdminHome() {
                 if (error) throw error;
             } else {
                 // Create new popup
-                if (!imageUrl) return alert('Please select an image');
+                if (!imageUrl) return alert('Please select an image or provide a link');
 
                 const { error } = await supabase.from('popups').insert([{
                     title: newPopup.title,
@@ -226,7 +240,15 @@ export default function AdminHome() {
             }
 
             setShowPopupForm(false);
-            setNewPopup({ id: null, title: '', link_url: '', image: null, display_order: 0 });
+            setNewPopup({
+                id: null,
+                title: '',
+                link_url: '',
+                image: null,
+                display_order: 0,
+                image_source_type: 'upload',
+                direct_image_url: ''
+            });
             fetchPopups();
         } catch (error) {
             console.error('Error saving popup:', error);
@@ -241,7 +263,9 @@ export default function AdminHome() {
             link_url: popup.link_url || '',
             image: null,
             display_order: popup.display_order || 0,
-            current_image: popup.image_url
+            current_image: popup.image_url,
+            image_source_type: 'upload', // Default to upload view, but keep current
+            direct_image_url: ''
         });
         setShowPopupForm(true);
     }
@@ -388,7 +412,15 @@ export default function AdminHome() {
                     <div className="flex justify-between items-center mb-6">
                         <h2>Website Pop-ups</h2>
                         <button className="btn btn-primary" onClick={() => {
-                            setNewPopup({ id: null, title: '', link_url: '', image: null, display_order: 0 });
+                            setNewPopup({
+                                id: null,
+                                title: '',
+                                link_url: '',
+                                image: null,
+                                display_order: 0,
+                                image_source_type: 'upload',
+                                direct_image_url: ''
+                            });
                             setShowPopupForm(true);
                         }}>
                             <Plus size={18} /> New Pop-up
@@ -454,22 +486,51 @@ export default function AdminHome() {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Image {newPopup.id && '(Leave empty to keep existing)'}</label>
+                                        <label className="mb-2 block">Image Source</label>
+                                        <div className="flex gap-4 mb-3">
+                                            <label className="flex items-center gap-2 cursor-pointer">
+                                                <input
+                                                    type="radio"
+                                                    name="source_type"
+                                                    checked={newPopup.image_source_type === 'upload'}
+                                                    onChange={() => setNewPopup({ ...newPopup, image_source_type: 'upload' })}
+                                                /> Upload File
+                                            </label>
+                                            <label className="flex items-center gap-2 cursor-pointer">
+                                                <input
+                                                    type="radio"
+                                                    name="source_type"
+                                                    checked={newPopup.image_source_type === 'link'}
+                                                    onChange={() => setNewPopup({ ...newPopup, image_source_type: 'link' })}
+                                                /> Direct Link URL
+                                            </label>
+                                        </div>
 
-                                        {newPopup.current_image && !newPopup.image && (
+                                        {newPopup.current_image && !newPopup.image && !newPopup.direct_image_url && (
                                             <div className="mb-2 p-2 bg-gray-100 rounded border border-gray-200">
                                                 <p className="text-xs text-gray-500 mb-1">Current Image:</p>
                                                 <img src={newPopup.current_image} alt="Current" className="h-20 w-auto object-contain" />
                                             </div>
                                         )}
 
-                                        <input
-                                            type="file"
-                                            className="form-input"
-                                            accept="image/*"
-                                            required={!newPopup.id}
-                                            onChange={e => setNewPopup({ ...newPopup, image: e.target.files[0] })}
-                                        />
+                                        {newPopup.image_source_type === 'upload' ? (
+                                            <input
+                                                type="file"
+                                                className="form-input"
+                                                accept="image/*"
+                                                required={!newPopup.id && newPopup.image_source_type === 'upload'}
+                                                onChange={e => setNewPopup({ ...newPopup, image: e.target.files[0] })}
+                                            />
+                                        ) : (
+                                            <input
+                                                type="url"
+                                                className="form-input"
+                                                placeholder="https://example.com/image.jpg"
+                                                value={newPopup.direct_image_url}
+                                                required={!newPopup.id && newPopup.image_source_type === 'link'}
+                                                onChange={e => setNewPopup({ ...newPopup, direct_image_url: e.target.value })}
+                                            />
+                                        )}
                                     </div>
                                     <div className="form-group">
                                         <label>Target Link (Optional)</label>
