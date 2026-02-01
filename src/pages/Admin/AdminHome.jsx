@@ -240,7 +240,8 @@ export default function AdminHome() {
             title: popup.title || '',
             link_url: popup.link_url || '',
             image: null,
-            display_order: popup.display_order || 0
+            display_order: popup.display_order || 0,
+            current_image: popup.image_url
         });
         setShowPopupForm(true);
     }
@@ -301,7 +302,7 @@ export default function AdminHome() {
                     <div className="flex justify-between items-center mb-6">
                         <h2>Carousel Slides</h2>
                         <div className="flex gap-2">
-                            <button className="btn btn-outline" onClick={addSlide}>
+                            <button className="btn btn-outline-primary" onClick={addSlide}>
                                 <Plus size={18} /> Add Slide
                             </button>
                             <button className="btn btn-primary" onClick={saveSlides} disabled={savingSlides}>
@@ -407,7 +408,7 @@ export default function AdminHome() {
                                     <h3 className="font-bold mb-2">{popup.title || 'Untitled Popup'}</h3>
                                     <p className="text-sm text-gray-500 mb-2">Order: {popup.display_order}</p>
                                     <div className="flex justify-between items-center mt-2">
-                                        <button className="btn btn-sm btn-outline" onClick={() => openEditPopup(popup)}>
+                                        <button className="btn btn-sm btn-outline-primary" onClick={() => openEditPopup(popup)}>
                                             Edit
                                         </button>
                                         <button
@@ -454,6 +455,14 @@ export default function AdminHome() {
                                     </div>
                                     <div className="form-group">
                                         <label>Image {newPopup.id && '(Leave empty to keep existing)'}</label>
+
+                                        {newPopup.current_image && !newPopup.image && (
+                                            <div className="mb-2 p-2 bg-gray-100 rounded border border-gray-200">
+                                                <p className="text-xs text-gray-500 mb-1">Current Image:</p>
+                                                <img src={newPopup.current_image} alt="Current" className="h-20 w-auto object-contain" />
+                                            </div>
+                                        )}
+
                                         <input
                                             type="file"
                                             className="form-input"
@@ -473,7 +482,7 @@ export default function AdminHome() {
                                         />
                                     </div>
                                     <div className="modal-footer mt-6 flex justify-end gap-2">
-                                        <button type="button" className="btn btn-outline" onClick={() => setShowPopupForm(false)}>Cancel</button>
+                                        <button type="button" className="btn btn-outline-primary" onClick={() => setShowPopupForm(false)}>Cancel</button>
                                         <button type="submit" className="btn btn-primary">{newPopup.id ? 'Update' : 'Upload'} Popup</button>
                                     </div>
                                 </form>
@@ -492,7 +501,7 @@ export default function AdminHome() {
                             <p className="text-gray-500 text-sm mt-1">Manage scrolling news items independent of announcements.</p>
                         </div>
                         <div className="flex gap-2">
-                            <button className="btn btn-outline" onClick={addMarqueeItem}>
+                            <button className="btn btn-outline-primary" onClick={addMarqueeItem}>
                                 <Plus size={18} /> Add Item
                             </button>
                             <button className="btn btn-primary" onClick={() => saveMarqueeItems(marqueeItems)} disabled={savingMarquee}>
