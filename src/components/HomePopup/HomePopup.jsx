@@ -4,42 +4,58 @@ import { X, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function HomePopup() {
-    const [popup, setPopup] = useState(null);
+    const [popups, setPopups] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        fetchActivePopup();
+        fetchActivePopups();
     }, []);
 
-    async function fetchActivePopup() {
+    async function fetchActivePopups() {
         try {
             const { data, error } = await supabase
                 .from('popups')
                 .select('*')
                 .eq('is_active', true)
-                .order('display_order', { ascending: true })
-                .limit(1)
-                .single();
+                .order('display_order', { ascending: true });
 
-            if (data) {
-                setPopup(data);
+            if (data && data.length > 0) {
+                setPopups(data);
                 setIsVisible(true);
             }
         } catch (error) {
-            // No active popup or error
+            console.error('Error fetching popups:', error);
         }
     }
 
-    if (!popup || !isVisible) return null;
+    function handleClose() {
+        if (currentIndex < popups.length - 1) {
+            // Show next popup
+            setCurrentIndex(prev => prev + 1);
+        } else {
+            // No more popups
+            setIsVisible(false);
+        }
+    }
+
+    if (!isVisible || popups.length === 0) return null;
+
+    const popup = popups[currentIndex];
 
     return (
         <div className="home-popup-overlay">
-            <div className="home-popup-content" data-aos="zoom-in">
+            <div className="home-popup-content" data-aos="zoom-in" key={popup.id}>
                 <button
                     className="popup-close-btn"
-                    onClick={() => setIsVisible(false)}
+                    onClick={handleClose}
                 >
                     <X size={24} />
+                    {popups.length > 1 && (
+                        <span className="popup-count-badge">
+                            {currentIndex + 1}/{popups.length}
+                        </span>
+                    )}
                 </button>
 
                 <div className="popup-body">
@@ -107,6 +123,17 @@ export default function HomePopup() {
                 .popup-close-btn:hover {
                     transform: scale(1.1);
                     background: #f3f4f6;
+                }
+                .popup-count-badge {
+                    position: absolute;
+                    bottom: -25px;
+                    right: 0;
+                    background: rgba(0,0,0,0.6);
+                    color: white;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-size: 0.75rem;
+                    white-space: nowrap;
                 }
                 .popup-body img {
                     width: 100%;
