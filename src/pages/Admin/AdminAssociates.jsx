@@ -12,7 +12,9 @@ export default function AdminAssociates() {
         logo_url: '',
         website_url: '',
         display_order: 0,
-        is_active: true
+        is_active: true,
+        isFileUpload: false,
+        logoFile: null
     });
 
     useEffect(() => {
@@ -43,7 +45,9 @@ export default function AdminAssociates() {
                 logo_url: company.logo_url || '',
                 website_url: company.website_url || '',
                 display_order: company.display_order || 0,
-                is_active: company.is_active
+                is_active: company.is_active,
+                isFileUpload: false,
+                logoFile: null
             });
         } else {
             setEditingCompany(null);
@@ -52,28 +56,70 @@ export default function AdminAssociates() {
                 logo_url: '',
                 website_url: '',
                 display_order: companies.length,
-                is_active: true
+                is_active: true,
+                isFileUpload: false,
+                logoFile: null
             });
         }
         setIsModalOpen(true);
     }
 
+    function handleFileChange(e) {
+        if (e.target.files && e.target.files[0]) {
+            setFormData(prev => ({
+                ...prev,
+                logoFile: e.target.files[0]
+            }));
+        }
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
 
         try {
+            let finalLogoUrl = formData.logo_url;
+
+            if (formData.isFileUpload && formData.logoFile) {
+                const file = formData.logoFile;
+                const fileExt = file.name.split('.').pop();
+                const fileName = `associate-logos/${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from('documents')
+                    .upload(fileName, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from('documents')
+                    .getPublicUrl(fileName);
+
+                finalLogoUrl = publicUrl;
+            }
+
+            const submissionData = {
+                name: formData.name,
+                logo_url: finalLogoUrl,
+                website_url: formData.website_url,
+                display_order: formData.display_order,
+                is_active: formData.is_active
+            };
+
             if (editingCompany) {
-                const { error } = await supabase.from('associate_companies').update(formData).eq('id', editingCompany.id);
+                const { error } = await supabase.from('associate_companies').update(submissionData).eq('id', editingCompany.id);
                 if (error) throw error;
             } else {
-                const { error } = await supabase.from('associate_companies').insert([formData]);
+                const { error } = await supabase.from('associate_companies').insert([submissionData]);
                 if (error) throw error;
             }
             fetchCompanies();
             setIsModalOpen(false);
         } catch (error) {
             console.error('Error saving company:', error);
-            alert('Failed to save company');
+            alert('Failed to save company: ' + error.message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -161,10 +207,68 @@ export default function AdminAssociates() {
                                     <label className="form-label">Company Name</label>
                                     <input type="text" className="form-input" value={formData.name} onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))} required />
                                 </div>
+
                                 <div className="form-group">
-                                    <label className="form-label">Logo URL</label>
-                                    <input type="url" className="form-input" value={formData.logo_url} onChange={(e) => setFormData(prev => ({ ...prev, logo_url: e.target.value }))} />
+                                    <label className="form-label">Logo Source</label>
+                                    <div className="input-type-toggle" style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem' }}>
+                                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                            <input
+                                                type="radio"
+                                                name="logoSource"
+                                                checked={!formData.isFileUpload}
+                                                onChange={() => setFormData(prev => ({ ...prev, isFileUpload: false }))}
+                                            />
+                                            <span>Image URL</span>
+                                        </label>
+                                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                            <input
+                                                type="radio"
+                                                name="logoSource"
+                                                checked={formData.isFileUpload}
+                                                onChange={() => setFormData(prev => ({ ...prev, isFileUpload: true }))}
+                                            />
+                                            <span>Upload Image</span>
+                                        </label>
+                                    </div>
+
+                                    {formData.isFileUpload ? (
+                                        <div className="file-upload-container">
+                                            <input
+                                                type="file"
+                                                className="form-input"
+                                                onChange={handleFileChange}
+                                                accept="image/*"
+                                            />
+                                            {formData.logoFile && (
+                                                <small className="text-success" style={{ display: 'block', marginTop: '0.25rem', color: 'green' }}>
+                                                    Selected: {formData.logoFile.name}
+                                                </small>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <input
+                                            type="url"
+                                            className="form-input"
+                                            placeholder="https://example.com/logo.png"
+                                            value={formData.logo_url}
+                                            onChange={(e) => setFormData(prev => ({ ...prev, logo_url: e.target.value }))}
+                                        />
+                                    )}
+                                    {/* Preview */}
+                                    {(formData.logo_url || formData.logoFile) && (
+                                        <div className="image-preview" style={{ marginTop: '0.5rem', padding: '0.5rem', border: '1px dashed #ddd', borderRadius: '4px', textAlign: 'center' }}>
+                                            <span style={{ display: 'block', fontSize: '12px', color: '#666', marginBottom: '0.25rem' }}>Preview</span>
+                                            <img
+                                                src={formData.isFileUpload && formData.logoFile ? URL.createObjectURL(formData.logoFile) : formData.logo_url}
+                                                alt="Logo Preview"
+                                                style={{ maxHeight: '60px', maxWidth: '100%', objectFit: 'contain' }}
+                                                onError={(e) => e.target.style.display = 'none'}
+                                                onLoad={(e) => e.target.style.display = 'inline-block'}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
+
                                 <div className="form-group">
                                     <label className="form-label">Website URL</label>
                                     <input type="url" className="form-input" value={formData.website_url} onChange={(e) => setFormData(prev => ({ ...prev, website_url: e.target.value }))} />
@@ -176,7 +280,9 @@ export default function AdminAssociates() {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary"><Save size={16} /> Save</button>
+                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                    {loading ? 'Saving...' : <><Save size={16} /> Save</>}
+                                </button>
                             </div>
                         </form>
                     </div>

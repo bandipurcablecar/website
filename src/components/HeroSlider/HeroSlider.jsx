@@ -14,19 +14,19 @@ export default function HeroSlider() {
 
     const defaultSlides = [
         {
-            image: 'https://bandipurcablecar.com.np/assets/img/banner-1.jpeg',
+            image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920',
             title: 'Experience Bandipur',
             subtitle: 'Queen of Hills',
             description: 'Discover the beauty of Bandipur with our scenic cable car ride'
         },
         {
-            image: 'https://bandipurcablecar.com.np/assets/img/banner-2.jpeg',
+            image: 'https://images.unsplash.com/photo-1566073771259-6a85060e9089?w=1920',
             title: 'Queen Tower Hotel',
             subtitle: 'Luxury Awaits',
             description: 'Experience world-class hospitality at the hilltop'
         },
         {
-            image: 'https://bandipurcablecar.com.np/assets/img/hero_2.jpg',
+            image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920',
             title: 'Luxury Resort',
             subtitle: 'Lemon Tree Hotels',
             description: 'Agreement with Lemon Tree Hotels Limited for Queen Tower Hotel'

@@ -24,7 +24,7 @@ export default function Projects() {
             {/* Hero Section */}
             <section className="page-hero">
                 <div className="page-hero-bg" style={{
-                    backgroundImage: `url(https://bandipurcablecar.com.np/assets/img/investment/investing.jpg)`
+                    backgroundImage: `url(https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=1920)`
                 }}></div>
                 <div className="page-hero-overlay"></div>
                 <div className="container">
@@ -66,7 +66,7 @@ export default function Projects() {
                                     data-aos-delay={index * 100}
                                 >
                                     <div className="project-image">
-                                        <img src={project.image_url || 'https://bandipurcablecar.com.np/assets/img/investment/investing.jpg'} alt={project.title} />
+                                        <img src={project.image_url || 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=800'} alt={project.title} />
                                         <div className="project-status" style={{ backgroundColor: statusColors[project.status] || '#6b7280' }}>
                                             {project.status}
                                         </div>

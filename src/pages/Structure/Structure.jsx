@@ -43,7 +43,7 @@ export default function Structure() {
                     <div className="chairman-section">
                         <div className="chairman-image" data-aos="fade-right">
                             <img
-                                src="https://bandipurcablecar.com.np/assets/img/directer_team/chairman.webp"
+                                src="/team/chairman.png"
                                 alt="Chairman"
                             />
                         </div>
@@ -204,7 +204,7 @@ export default function Structure() {
 
                     <div className="org-structure" data-aos="fade-up">
                         <img
-                            src="https://bandipurcablecar.com.np/assets/img/about/model.png"
+                            src="https://placehold.co/800x600?text=Org+Structure+Image+Pending"
                             alt="Organizational Structure"
                             className="org-image"
                         />
